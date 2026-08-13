@@ -41,25 +41,31 @@ app.post('/api/subscribe', (req, res) => {
         
         // Send Verification Email
         const transporter = getTransporter();
-        if (transporter) {
-            // Note: In production, change localhost:3000 to your deployed backend URL
-            const verifyLink = `https://nindogames-website-backend.onrender.com/api/verify?token=${token}`;
-            const mailOptions = {
-                from: `"Nindo Game" <${process.env.EMAIL_USER}>`,
-                to: email,
-                subject: 'Verify your Nindo Subscription!',
-                text: `Welcome to the Shadows!\n\nPlease verify your email address to receive Nindo Game updates by copying this link into your browser:\n${verifyLink}\n\nIf you did not request this, please ignore this email.`,
-                html: `
-                    <h2>Welcome to the Shadows!</h2>
-                    <p>Please verify your email address to receive Nindo Game updates.</p>
-                    <a href="${verifyLink}" style="padding: 10px 20px; background: #f09b00; color: white; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Email</a>
-                    <p>If you did not request this, please ignore this email.</p>
-                `
-            };
-            transporter.sendMail(mailOptions).catch(console.error);
+        if (!transporter) {
+            return res.status(500).json({ error: 'Server configuration error: Email credentials missing.' });
         }
-        
-        res.status(200).json({ message: 'Verification email sent! Please check your inbox to confirm.' });
+
+        const verifyLink = `https://nindogames-website-backend.onrender.com/api/verify?token=${token}`;
+        const mailOptions = {
+            from: `"Nindo Game" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: 'Verify your Nindo Subscription!',
+            text: `Welcome to the Shadows!\n\nPlease verify your email address to receive Nindo Game updates by copying this link into your browser:\n${verifyLink}\n\nIf you did not request this, please ignore this email.`,
+            html: `
+                <h2>Welcome to the Shadows!</h2>
+                <p>Please verify your email address to receive Nindo Game updates.</p>
+                <a href="${verifyLink}" style="padding: 10px 20px; background: #f09b00; color: white; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Email</a>
+                <p>If you did not request this, please ignore this email.</p>
+            `
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.error("Nodemailer error:", err);
+                return res.status(500).json({ error: 'Failed to send email. Check Render credentials. Error: ' + err.message });
+            }
+            res.status(200).json({ message: 'Verification email sent! Please check your inbox to confirm.' });
+        });
     });
     stmt.finalize();
 });
