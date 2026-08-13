@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
             
             try {
-                const response = await fetch('http://localhost:3000/api/subscribe', {
+                const response = await fetch('https://nindogames-website-backend.onrender.com', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
