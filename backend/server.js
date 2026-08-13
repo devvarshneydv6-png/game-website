@@ -43,7 +43,7 @@ app.post('/api/subscribe', (req, res) => {
         const transporter = getTransporter();
         if (transporter) {
             // Note: In production, change localhost:3000 to your deployed backend URL
-            const verifyLink = `http://localhost:${PORT}/api/verify?token=${token}`;
+            const verifyLink = `https://nindogames-website-backend.onrender.com/api/verify?token=${token}`;
             const mailOptions = {
                 from: `"Nindo Game" <${process.env.EMAIL_USER}>`,
                 to: email,
