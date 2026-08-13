@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NINDO - Secret Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { padding: 40px 20px; text-align: center; }
+        .admin-container { max-width: 800px; margin: 0 auto; text-align: left; }
+        
+        #loginSection { max-width: 400px; margin: 100px auto; text-align: center; }
+        #loginSection input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1.2rem; border-radius: 5px; border: 1px solid var(--primary); background: rgba(0,0,0,0.5); color: white; text-align: center;}
+        
+        #dashboardSection { display: none; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+        @media(max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        
+        .panel { padding: 25px; border-radius: 10px; background: rgba(20, 20, 25, 0.8); border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .panel h3 { font-family: 'Cinzel', serif; color: var(--primary); margin-bottom: 20px; border-bottom: 1px solid var(--primary); padding-bottom: 10px;}
+        
+        #subscriberList { max-height: 350px; overflow-y: auto; padding-right: 10px; }
+        .sub-item { padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .sub-info { font-size: 0.95rem; }
+        .sub-date { font-size: 0.8rem; color: #888; display: block; margin-top: 5px;}
+        .badge { padding: 3px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
+        .badge-verified { background: #28a745; color: white; }
+        .badge-pending { background: #ffc107; color: black; }
+        .btn-delete { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
+        .btn-delete:hover { background: #cc0000; }
+        
+        .broadcast-form input, .broadcast-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-family: 'Nunito', sans-serif;}
+        .broadcast-form textarea { height: 150px; resize: vertical; }
+        
+        #statusMsg { margin-top: 15px; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1 style="font-family: 'Cinzel', serif; color: var(--primary); font-size: 2.5rem; margin-bottom: 10px;">
+        NINDO <span style="color: white;">ADMIN</span>
+    </h1>
+    <p>Secret Newsletter Broadcast System</p>
+
+    <!-- LOGIN -->
+    <div id="loginSection" class="glass-card">
+        <input type="password" id="adminPass" placeholder="Enter Admin Password">
+        <button id="loginBtn" class="btn btn-primary" style="width: 100%; justify-content: center;">Access Dashboard</button>
+        <p id="loginError" style="color: #ff4444; margin-top: 15px; display: none;">Invalid Password!</p>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboardSection" class="admin-container">
+        <div class="dashboard-grid">
+            
+            <!-- Subscribers List -->
+            <div class="panel">
+                <h3><i class="fas fa-users"></i> Subscribers (<span id="subCount">0</span>)</h3>
+                <div id="subscriberList">
+                    <p style="color: #888;">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Broadcast Form -->
+            <div class="panel">
+                <h3><i class="fas fa-broadcast-tower"></i> Send Broadcast</h3>
+                <div class="broadcast-form">
+                    <input type="text" id="emailSubject" placeholder="Email Subject (e.g. Level 2 Update!)" required>
+                    <textarea id="emailMessage" placeholder="Type your message here..." required></textarea>
+                    <button id="sendBtn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-paper-plane"></i> Send to All
+                    </button>
+                </div>
+                <p id="statusMsg"></p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let currentPassword = '';
+
+        // DOM Elements
+        const loginSection = document.getElementById('loginSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const subscriberList = document.getElementById('subscriberList');
+        const subCount = document.getElementById('subCount');
+        const sendBtn = document.getElementById('sendBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Login Action
+        loginBtn.addEventListener('click', async () => {
+            currentPassword = document.getElementById('adminPass').value;
+            loginBtn.textContent = 'Verifying...';
+            
+            try {
+                const res = await fetch(`${API_URL}/subscribers`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPassword })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    loginSection.style.display = 'none';
+                    dashboardSection.style.display = 'block';
+                    renderSubscribers(data);
+                } else {
+                    loginError.style.display = 'block';
+                    currentPassword = '';
+                }
+            } catch (err) {
+                loginError.textContent = "Backend server is offline! Start it first.";
+                loginError.style.display = 'block';
+            } finally {
+                loginBtn.textContent = 'Access Dashboard';
+            }
+        });
+
+        function renderSubscribers(subs) {
+            subCount.textContent = subs.length;
+            if (subs.length === 0) {
+                subscriberList.innerHTML = '<p style="color: #888;">No subscribers yet.</p>';
+                return;
+            }
+            
+            subscriberList.innerHTML = subs.map(sub => `
+                <div class="sub-item" id="sub-${sub.id}">
+                    <div class="sub-info">
+                        <strong>${sub.email}</strong>
+                        <span class="badge ${sub.is_verified ? 'badge-verified' : 'badge-pending'}">
+                            ${sub.is_verified ? 'Verified' : 'Pending'}
+                        </span>
+                        <span class="sub-date">${new Date(sub.date_subscribed).toLocaleString()}</span>
+                    </div>
+                    <button class="btn-delete" onclick="deleteSubscriber(${sub.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteSubscriber(id) {
+            if(!confirm("Are you sure you want to delete this subscriber?")) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/delete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPassword, id: id })
+                });
+
+                if (res.ok) {
+                    document.getElementById(`sub-${id}`).remove();
+                    subCount.textContent = parseInt(subCount.textContent) - 1;
+                } else {
+                    alert('Failed to delete subscriber.');
+                }
+            } catch (err) {
+                alert('Error connecting to server.');
+            }
+        }
+
+        // Send Broadcast Action
+        sendBtn.addEventListener('click', async () => {
+            const subject = document.getElementById('emailSubject').value;
+            const message = document.getElementById('emailMessage').value;
+
+            if(!subject || !message) {
+                statusMsg.style.color = '#ff4444';
+                statusMsg.textContent = 'Please fill both Subject and Message!';
+                return;
+            }
+
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            statusMsg.textContent = '';
+
+            try {
+                const res = await fetch(`${API_URL}/broadcast`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPassword, subject, message })
+                });
+
+                const data = await res.json();
+                
+                if (res.ok) {
+                    statusMsg.style.color = 'var(--primary)';
+                    statusMsg.textContent = data.message;
+                    document.getElementById('emailSubject').value = '';
+                    document.getElementById('emailMessage').value = '';
+                } else {
+                    statusMsg.style.color = '#ff4444';
+                    statusMsg.textContent = data.error;
+                }
+            } catch (err) {
+                statusMsg.style.color = '#ff4444';
+                statusMsg.textContent = "Error connecting to server.";
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send to All';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NINDO: The Lost Scroll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts: Nunito, Fredoka One, and Cinzel for the lore scroll -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Epic Scroll Intro -->
+    <div id="intro-scroll" class="intro-scroll">
+        <div class="scroll-top"></div>
+        <div class="scroll-bottom"></div>
+    </div>
+
+    <!-- Custom Mouse Pointer -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-glow"></div>
+
+    <!-- Mystical Background & Particles -->
+    <div class="parallax-wrapper">
+        <canvas id="backgroundCanvas"></canvas> <!-- Network & Sakura -->
+        
+        <!-- Sumi-e Shadow Dragon -->
+        <div class="shadow-dragon">
+            <i class="fas fa-dragon"></i>
+        </div>
+        
+        <div class="ambient-glow"></div>
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        <div class="bg-orb orb-3"></div>
+        <div class="bg-noise"></div>
+        <div class="fog-layer"></div>
+    </div>
+
+
+
+    <!-- Navigation -->
+    <header class="navbar glassmorphism">
+        <!-- Scroll Progress Bar -->
+        <div class="scroll-progress-bar" id="scrollProgress"></div>
+        
+        <div class="nav-content">
+            <div class="logo">
+                <span class="logo-text">NINDO<span class="logo-accent">.</span></span>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="#about">About Game</a></li>
+                    <li><a href="#status">Dev Log</a></li>
+                    <li><a href="#media">Gallery</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section-padding">
+            <div class="hero-content">
+                <div class="badge fade-up">
+                    <i class="fab fa-windows"></i> Windows PC Exclusive
+                </div>
+                
+                <div class="logo-container fade-up delay-1">
+                    <img src="logo.png" alt="NINDO The Lost Scroll" class="main-logo" id="mainLogo" onerror="this.onerror=null; this.src='https://placehold.co/600x300/f5ecd8/e60000?text=NINDO+Logo+Here';">
+                </div>
+                
+                <p class="hero-desc fade-up delay-2">
+                    A beautiful 2D platformer adventure. Play as a ninja seeking revenge to retrieve a stolen scroll. Battle monsters, overcome obstacles, and face epic bosses in a mystical world accompanied by soothing music.
+                </p>
+
+                <div class="cta-group fade-up delay-3">
+                    <a href="Nindo_Game.zip" download="Nindo_Game.zip" class="btn btn-primary btn-float">
+                        <i class="fab fa-windows"></i>
+                        <span>Download for Windows</span>
+                    </a>
+                    
+                    <a href="https://forms.gle/uS2nNeje1cogYcWf9" class="btn btn-secondary btn-float" target="_blank">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Give Feedback</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator bounce">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Development Status Section -->
+        <section id="status" class="dev-status section-padding">
+            <div class="section-header fade-up">
+                <h2>Developer Updates</h2>
+                <div class="divider"></div>
+                <p>What we are currently working on.</p>
+            </div>
+            
+            <div class="status-grid">
+                <div class="status-card glass-card fade-up">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Version</h3>
+                    <div class="status-pill in-progress">
+                        <span class="pulse-dot"></span> In Development
+                    </div>
+                    <p>We are working hard to optimize the controls and performance so you can take Nindo with you on your iOS and Android devices!</p>
+                </div>
+                
+                <div class="status-card glass-card fade-up delay-1">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>New Levels</h3>
+                    <div class="status-pill in-progress">
+                        <span class="pulse-dot"></span> Crafting Now
+                    </div>
+                    <p>More obstacles, smarter monsters, and intricate level designs are currently being built to challenge your ninja skills even further.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About / Story Section -->
+        <section id="about" class="about-section section-padding">
+            <div class="story-scroll-container fade-up">
+                
+                <div class="story-scroll">
+                    <div class="scroll-roller top"></div>
+                    <div class="scroll-paper">
+                        <div class="watermark-logo"><i class="fas fa-dragon"></i></div>
+                        <h2 class="story-title">The Scroll Must Be Found</h2>
+                        <div class="story-divider"></div>
+                        <p class="lore-text">In a realm where shadows dictate the fate of the innocent, a sacred scroll containing ancient jutsu has been stolen by the demon lord. You are the last surviving master of the Nindo clan.</p>
+                        <p class="lore-text">Navigate through challenging realms, dodge deadly traps, and fight waves of vicious monsters in your relentless quest for revenge. The fate of the clan rests on your blade.</p>
+                    </div>
+                    <div class="scroll-roller bottom"></div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <i class="fas fa-skull stat-icon"></i>
+                        <span class="stat-value">Epic</span>
+                        <span class="stat-label">Boss Fights</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-star stat-icon"></i>
+                        <span class="stat-value">3-Star</span>
+                        <span class="stat-label">Level Mastery</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-trophy stat-icon"></i>
+                        <span class="stat-value">Global</span>
+                        <span class="stat-label">Highscores</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-music stat-icon"></i>
+                        <span class="stat-value">Soothing</span>
+                        <span class="stat-label">Music</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media Section -->
+        <section id="media" class="media-section section-padding">
+            <div class="section-header fade-up">
+                <h2>Gameplay Gallery</h2>
+                <div class="divider"></div>
+                <p>A glimpse into the magical world of Nindo.</p>
+            </div>
+            
+            <div class="gallery">
+                <div class="gallery-item glass-card fade-up">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Screenshot 1">
+                    <div class="item-overlay"><span>Epic Battles</span></div>
+                </div>
+                <div class="gallery-item glass-card fade-up delay-1">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Screenshot 2">
+                    <div class="item-overlay"><span>Magical Worlds</span></div>
+                </div>
+                <div class="gallery-item glass-card fade-up delay-2">
+                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Screenshot 3">
+                    <div class="item-overlay"><span>Fierce Enemies</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq-section section-padding">
+            <div class="section-header fade-up">
+                <h2>Frequently Asked Questions</h2>
+                <div class="divider"></div>
+                <p>Everything you need to know before you play.</p>
+            </div>
+            
+            <div class="faq-container fade-up delay-1">
+                <details class="faq-item glass-card">
+                    <summary>Is NINDO: The Lost Scroll free to play?</summary>
+                    <div class="faq-content">
+                        <p>Yes! The game is currently completely free to download and play during its Early Access phase on PC.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item glass-card">
+                    <summary>When will the mobile version be released?</summary>
+                    <div class="faq-content">
+                        <p>We are actively working on the mobile version right now. While we don't have an exact release date yet, it is our top priority. Sign up for our newsletter to get notified the moment it drops!</p>
+                    </div>
+                </details>
+
+                <details class="faq-item glass-card">
+                    <summary>What are the system requirements for PC?</summary>
+                    <div class="faq-content">
+                        <p>Because it's a 2D platformer, it's highly optimized! Any PC with at least 4GB of RAM, a basic graphics card, and Windows 10/11 will run the game smoothly.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item glass-card">
+                    <summary>How many levels are there currently?</summary>
+                    <div class="faq-content">
+                        <p>Currently, there is only 1 level available in Early Access, but we are actively working on building more levels, regions, and epic boss fights!</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Newsletter & Contact Section -->
+        <section class="newsletter-section section-padding">
+            <div class="newsletter-grid">
+                <div class="newsletter-box glass-card fade-up">
+                    <h2>Join the Shadows</h2>
+                    <p>Subscribe to our newsletter to get notified when the Mobile version launches or when we release massive updates!</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" name="email" id="newsletterEmail" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Subscribe</button>
+                    </form>
+                    <p id="newsletterMsg" style="margin-top: 10px; font-weight: bold; display: none;"></p>
+                </div>
+
+                <div class="contact-box glass-card fade-up delay-1">
+                    <h2>Developer Contact</h2>
+                    <p>Solo Developed With <i class="fas fa-heart" style="color: var(--secondary);"></i> by Dev Varshney.</p>
+                    <p>Have questions, ideas, or business inquiries? Establish a secure connection below.</p>
+                    <a href="mailto:devvarshney.dv6@gmail.com" class="btn btn-secondary contact-btn">
+                        <i class="fas fa-envelope"></i> devvarshney.dv6@gmail.com
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="glassmorphism">
+        <div class="footer-content">
+            <div class="logo-text footer-logo">NINDO<span class="logo-accent">.</span></div>
+            <p>&copy; 2026 Developed by Dev Varshney. All rights reserved.</p>
+            <p class="footer-note"><i class="fas fa-gamepad"></i> Thanks for playing!</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
