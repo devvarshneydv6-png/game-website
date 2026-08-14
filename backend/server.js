@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.set('trust proxy', 1); // For Vercel proxy headers
 
 // Helper: Setup Nodemailer Transporter
 function getTransporter() {
@@ -45,7 +46,7 @@ app.post('/api/subscribe', (req, res) => {
             return res.status(500).json({ error: 'Server configuration error: Email credentials missing.' });
         }
 
-        const verifyLink = `https://nindogames-website-backend.onrender.com/api/verify?token=${token}`;
+        const verifyLink = `${req.protocol}://${req.get('host')}/api/verify?token=${token}`;
         const mailOptions = {
             from: `"Nindo Game" <${process.env.EMAIL_USER}>`,
             to: email,
@@ -165,6 +166,4 @@ app.post('/api/broadcast', async (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Shadow Backend is running on http://localhost:${PORT}`);
-});
+module.exports = app;
