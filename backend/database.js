@@ -1,31 +1,35 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-const fs = require('fs');
+const { Pool } = require('pg');
+require('dotenv').config();
 
-// Open a database connection
-const dbPath = fs.existsSync('.data') ? '.data/subscribers.db' : './subscribers.db';
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error connecting to database:', err.message);
-    } else {
-        console.log('Connected to SQLite database at', dbPath);
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
     }
 });
 
-// Recreate the subscribers table for the new schema
-db.serialize(() => {
-    // Drop old table since we are adding new columns and it's just test data
-    db.run(`DROP TABLE IF EXISTS subscribers`);
-    
-    db.run(`
-        CREATE TABLE IF NOT EXISTS subscribers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE NOT NULL,
-            is_verified BOOLEAN DEFAULT 0,
-            verify_token TEXT,
-            date_subscribed DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    `);
+pool.connect((err, client, release) => {
+    if (err) {
+        console.error('Error connecting to PostgreSQL database:', err.stack);
+    } else {
+        console.log('Connected to Neon PostgreSQL database.');
+        release();
+    }
 });
 
-module.exports = db;
+// Initialize database table
+pool.query(`
+    CREATE TABLE IF NOT EXISTS subscribers (
+        id SERIAL PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        is_verified BOOLEAN DEFAULT false,
+        verify_token TEXT,
+        date_subscribed TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`, (err, res) => {
+    if (err) {
+        console.error('Error creating table:', err);
+    }
+});
+
+module.exports = pool;

@@ -29,13 +29,13 @@ app.post('/api/subscribe', (req, res) => {
     if (!email) return res.status(400).json({ error: 'Email is required' });
 
     const token = crypto.randomBytes(20).toString('hex');
-    const stmt = db.prepare("INSERT INTO subscribers (email, is_verified, verify_token) VALUES (?, 0, ?)");
     
-    stmt.run([email, token], function(err) {
+    db.query("INSERT INTO subscribers (email, is_verified, verify_token) VALUES ($1, false, $2)", [email, token], (err, result) => {
         if (err) {
-            if (err.message.includes('UNIQUE')) {
+            if (err.code === '23505') { // Postgres unique constraint violation
                 return res.status(400).json({ error: 'This email is already subscribed!' });
             }
+            console.error("DB Insert Error:", err);
             return res.status(500).json({ error: 'Database error' });
         }
         
@@ -67,7 +67,6 @@ app.post('/api/subscribe', (req, res) => {
             res.status(200).json({ message: 'Verification email sent! Please check your inbox to confirm.' });
         });
     });
-    stmt.finalize();
 });
 
 // API: Verify Email Route (Clicked from Email)
@@ -75,11 +74,12 @@ app.get('/api/verify', (req, res) => {
     const { token } = req.query;
     if (!token) return res.status(400).send('Invalid token.');
 
-    db.get("SELECT id FROM subscribers WHERE verify_token = ?", [token], (err, row) => {
+    db.query("SELECT id FROM subscribers WHERE verify_token = $1", [token], (err, result) => {
         if (err) return res.status(500).send('Database error.');
-        if (!row) return res.status(400).send('Invalid or expired verification link.');
+        if (result.rows.length === 0) return res.status(400).send('Invalid or expired verification link.');
 
-        db.run("UPDATE subscribers SET is_verified = 1, verify_token = NULL WHERE id = ?", [row.id], (err) => {
+        const row = result.rows[0];
+        db.query("UPDATE subscribers SET is_verified = true, verify_token = NULL WHERE id = $1", [row.id], (err) => {
             if (err) return res.status(500).send('Database error.');
             
             // Send a nice HTML response
@@ -103,9 +103,9 @@ app.post('/api/subscribers', (req, res) => {
     const { password } = req.body;
     if (password !== ADMIN_PASS) return res.status(401).json({ error: 'Unauthorized' });
 
-    db.all("SELECT * FROM subscribers ORDER BY date_subscribed DESC", [], (err, rows) => {
+    db.query("SELECT * FROM subscribers ORDER BY date_subscribed DESC", [], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
-        res.status(200).json(rows);
+        res.status(200).json(result.rows);
     });
 });
 
@@ -115,7 +115,7 @@ app.post('/api/delete', (req, res) => {
     if (password !== ADMIN_PASS) return res.status(401).json({ error: 'Unauthorized' });
     if (!id) return res.status(400).json({ error: 'Subscriber ID is required' });
 
-    db.run("DELETE FROM subscribers WHERE id = ?", [id], function(err) {
+    db.query("DELETE FROM subscribers WHERE id = $1", [id], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         res.status(200).json({ message: 'Subscriber deleted successfully!' });
     });
@@ -127,10 +127,10 @@ app.post('/api/broadcast', async (req, res) => {
     if (password !== ADMIN_PASS) return res.status(401).json({ error: 'Unauthorized' });
     if (!subject || !message) return res.status(400).json({ error: 'Subject and message required' });
 
-    db.all("SELECT email FROM subscribers WHERE is_verified = 1", [], async (err, rows) => {
+    db.query("SELECT email FROM subscribers WHERE is_verified = true", [], async (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         
-        const emails = rows.map(r => r.email);
+        const emails = result.rows.map(r => r.email);
         if (emails.length === 0) return res.status(400).json({ error: 'No verified subscribers found!' });
 
         const transporter = getTransporter();
