@@ -52,9 +52,18 @@
                 <span class="logo-text">NINDO<span class="logo-accent">.</span></span>
             </div>
             
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="nav-actions" style="display: flex; gap: 12px; align-items: center;">
+                <a href="#join-shadows" class="btn btn-primary top-subscribe-btn" style="padding: 8px 15px; font-size: 0.9rem;">
+                    <i class="fas fa-bell"></i> <span class="subscribe-text">Subscribe</span>
+                </a>
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
 
             <nav id="navMenu">
                 <ul class="nav-links">
@@ -63,15 +72,6 @@
                     <li><a href="#media">Gallery</a></li>
                     <li><a href="#faq">FAQ</a></li>
                 </ul>
-                <div style="display: flex; gap: 20px; align-items: center; margin-left: 15px;">
-                    <a href="#join-shadows" class="btn btn-primary" style="padding: 8px 24px; font-size: 0.9rem;">
-                        <i class="fas fa-bell"></i> Subscribe
-                    </a>
-                    <!-- Theme Toggle Button -->
-                    <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
-                        <i class="fas fa-moon" id="themeIcon"></i>
-                    </button>
-                </div>
             </nav>
         </div>
     </header>

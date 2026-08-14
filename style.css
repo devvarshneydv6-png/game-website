@@ -897,3 +897,4 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid var(--gla
 }
 
 
+@media (max-width: 500px) { .top-subscribe-btn { padding: 8px 12px !important; } .subscribe-text { display: none; } .nav-actions { gap: 8px !important; } }
