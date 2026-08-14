@@ -462,26 +462,30 @@ h1, h2, h3, h4, .logo-text, .badge, .btn {
     transition: 0s;
 }
 
-.btn:hover::after {
-    left: 200%;
-    transition: 0.6s ease-in-out;
-}
-
 .btn-primary {
     background: var(--primary); color: #fff;
     box-shadow: 0 6px 0 var(--primary-hover), 0 10px 20px var(--shadow-color);
 }
 [data-theme="dark"] .btn-primary { color: #111; }
 
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--primary-hover), 0 15px 25px var(--shadow-color); }
+@media (hover: hover) {
+    .btn:hover::after {
+        left: 200%;
+        transition: 0.6s ease-in-out;
+    }
+    
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--primary-hover), 0 15px 25px var(--shadow-color); }
+    
+    .btn-secondary:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
+    [data-theme="dark"] .btn-secondary:hover { color: #111; }
+}
+
 .btn-primary:active { transform: translateY(6px); box-shadow: 0 0 0 var(--primary-hover); }
 
 .btn-secondary {
     background: var(--card-bg); color: var(--text-main);
     border: 2px solid var(--primary); box-shadow: 0 5px 15px var(--shadow-color);
 }
-.btn-secondary:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
-[data-theme="dark"] .btn-secondary:hover { color: #111; }
 
 .scroll-indicator {
     position: absolute; bottom: 30px; font-size: 2rem;
