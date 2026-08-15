@@ -48,15 +48,23 @@ app.post('/api/subscribe', (req, res) => {
 
         const verifyLink = `${req.protocol}://${req.get('host')}/api/verify?token=${token}`;
         const mailOptions = {
-            from: `"Nindo Game" <${process.env.EMAIL_USER}>`,
+            from: `"Nindo Game Team" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: 'Verify your Nindo Subscription!',
-            text: `Welcome to the Shadows!\n\nPlease verify your email address to receive Nindo Game updates by copying this link into your browser:\n${verifyLink}\n\nIf you did not request this, please ignore this email.`,
+            subject: 'Action Required: Verify your email for Nindo Game',
+            text: `Welcome to the Shadows!\n\nThank you for your interest in Nindo: The Lost Scroll. To ensure you receive our developer logs, game updates, and exclusive news, please verify your email address by copying this link into your browser:\n\n${verifyLink}\n\nIf you did not request this subscription, please safely ignore this email.\n\nBest regards,\nThe Nindo Game Development Team`,
             html: `
-                <h2>Welcome to the Shadows!</h2>
-                <p>Please verify your email address to receive Nindo Game updates.</p>
-                <a href="${verifyLink}" style="padding: 10px 20px; background: #f09b00; color: white; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Email</a>
-                <p>If you did not request this, please ignore this email.</p>
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; line-height: 1.6;">
+                    <h2 style="color: #f09b00;">Welcome to the Shadows!</h2>
+                    <p>Thank you for your interest in <strong>Nindo: The Lost Scroll</strong>. We're thrilled to have you join our community.</p>
+                    <p>To ensure you receive our developer logs, game updates, and exclusive news without interruption, please verify your email address by clicking the button below:</p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${verifyLink}" style="padding: 12px 25px; background: #f09b00; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">Verify Email Address</a>
+                    </div>
+                    <p style="font-size: 0.9em; color: #666;">If the button doesn't work, you can copy and paste the following link into your browser:<br>
+                    <a href="${verifyLink}" style="color: #0066cc;">${verifyLink}</a></p>
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                    <p style="font-size: 0.8em; color: #999;">If you did not request this subscription, you can safely ignore this email. No further action is required.</p>
+                </div>
             `
         };
 
