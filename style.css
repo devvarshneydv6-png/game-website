@@ -680,11 +680,20 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid var(--gla
 .footer-note { color: var(--secondary) !important; margin-top: 10px; }
 
 /* ================= ANIMATIONS ================= */
-.fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.fade-up.visible { opacity: 1; transform: translateY(0); }
-.delay-1 { transition-delay: 0.15s; }
-.delay-2 { transition-delay: 0.3s; }
-.delay-3 { transition-delay: 0.45s; }
+.fade-up {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+}
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.15s; }
+.delay-3 { transition-delay: 0.22s; }
 
 /* ================= EPIC INTRO SCROLL ================= */
 .intro-scroll {
@@ -775,6 +784,10 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid var(--gla
     .section-header h2 { font-size: 1.8rem; }
     .section-header p { font-size: 0.95rem; }
     .logo-text { font-size: 1.6rem; }
+    
+    /* Fast instant reveals on mobile to prevent laggy scroll feeling */
+    .delay-1, .delay-2, .delay-3 { transition-delay: 0s !important; }
+    .fade-up { transition-duration: 0.35s !important; transform: translateY(18px); }
     
     #navMenu {
         position: absolute; top: 110%; right: 4%; left: auto; width: 250px; height: auto;
@@ -898,3 +911,10 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid var(--gla
 
 
 @media (max-width: 500px) { .top-subscribe-btn { padding: 8px 12px !important; } .subscribe-text { display: none; } .nav-actions { gap: 8px !important; } }
+
+/* Android Button */
+.btn-android { background: #3DDC84; color: #fff; box-shadow: 0 6px 0 #2ea664, 0 10px 20px var(--shadow-color); }
+@media (hover: hover) { .btn-android:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #2ea664, 0 15px 25px var(--shadow-color); } }
+.btn-android:active { transform: translateY(6px); box-shadow: 0 0 0 #2ea664; }
+.btn-android:hover { box-shadow: 0 6px 0 #2ea664, 0 10px 20px var(--shadow-color) !important; }
+.btn-android:active { transform: translateY(6px) !important; box-shadow: 0 0 0 #2ea664 !important; }

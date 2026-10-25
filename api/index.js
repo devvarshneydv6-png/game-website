@@ -50,22 +50,30 @@ app.post('/api/subscribe', (req, res) => {
         const mailOptions = {
             from: `"Nindo Game Team" <${process.env.EMAIL_USER}>`,
             to: email,
+            replyTo: process.env.EMAIL_USER,
             subject: 'Action Required: Verify your email for Nindo Game',
             text: `Welcome to the Shadows!\n\nThank you for your interest in Nindo: The Lost Scroll. To ensure you receive our developer logs, game updates, and exclusive news, please verify your email address by copying this link into your browser:\n\n${verifyLink}\n\nIf you did not request this subscription, please safely ignore this email.\n\nBest regards,\nThe Nindo Game Development Team`,
             html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; line-height: 1.6;">
-                    <h2 style="color: #f09b00;">Welcome to the Shadows!</h2>
-                    <p>Thank you for your interest in <strong>Nindo: The Lost Scroll</strong>. We're thrilled to have you join our community.</p>
-                    <p>To ensure you receive our developer logs, game updates, and exclusive news without interruption, please verify your email address by clicking the button below:</p>
-                    <div style="text-align: center; margin: 30px 0;">
-                        <a href="${verifyLink}" style="padding: 12px 25px; background: #f09b00; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">Verify Email Address</a>
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #222; line-height: 1.6; background: #ffffff; border: 1px solid #eaeaea; border-radius: 8px; padding: 25px;">
+                    <div style="text-align: center; border-bottom: 2px solid #f09b00; padding-bottom: 15px; margin-bottom: 20px;">
+                        <h2 style="color: #f09b00; margin: 0; font-size: 24px;">NINDO: The Lost Scroll</h2>
                     </div>
-                    <p style="font-size: 0.9em; color: #666;">If the button doesn't work, you can copy and paste the following link into your browser:<br>
-                    <a href="${verifyLink}" style="color: #0066cc;">${verifyLink}</a></p>
-                    <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-                    <p style="font-size: 0.8em; color: #999;">If you did not request this subscription, you can safely ignore this email. No further action is required.</p>
+                    <p>Welcome to the Shadows!</p>
+                    <p>Thank you for subscribing to <strong>Nindo: The Lost Scroll</strong>. To make sure you receive our developer logs, game updates, and exclusive news directly in your inbox, please verify your email address:</p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${verifyLink}" style="padding: 12px 28px; background: #f09b00; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold; font-size: 16px;">Verify Email Address</a>
+                    </div>
+                    <p style="font-size: 0.9em; color: #666;">If the button above does not work, copy and paste this verification URL into your browser:<br>
+                    <a href="${verifyLink}" style="color: #0066cc; word-break: break-all;">${verifyLink}</a></p>
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+                    <p style="font-size: 0.8em; color: #888; margin: 0;">If you did not request this email, please ignore it. No further emails will be sent.</p>
                 </div>
-            `
+            `,
+            headers: {
+                'X-Priority': '3',
+                'X-MSMail-Priority': 'Normal',
+                'Importance': 'Normal'
+            }
         };
 
         transporter.sendMail(mailOptions, (err, info) => {
@@ -154,9 +162,23 @@ app.post('/api/broadcast', async (req, res) => {
             const mailOptions = {
                 from: `"Nindo Updates" <${process.env.EMAIL_USER}>`,
                 to: userEmail,
+                replyTo: process.env.EMAIL_USER,
                 subject: subject,
                 text: message,
-                html: `<p style="white-space: pre-wrap;">${message}</p><br><br><small style="color:#888;">You are receiving this because you verified your email on the Nindo Website.</small>`
+                html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #222; line-height: 1.6; background: #ffffff; border: 1px solid #eaeaea; border-radius: 8px; padding: 25px;">
+                        <div style="text-align: center; border-bottom: 2px solid #f09b00; padding-bottom: 15px; margin-bottom: 20px;">
+                            <h2 style="color: #f09b00; margin: 0; font-size: 22px;">NINDO: The Lost Scroll</h2>
+                        </div>
+                        <div style="white-space: pre-wrap; font-size: 15px; color: #333; margin-bottom: 25px;">${message}</div>
+                        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                        <p style="font-size: 0.8em; color: #888; margin: 0;">You are receiving this update because you are a verified subscriber to the Nindo newsletter.</p>
+                    </div>
+                `,
+                headers: {
+                    'X-Priority': '3',
+                    'X-MSMail-Priority': 'Normal'
+                }
             };
 
             try {

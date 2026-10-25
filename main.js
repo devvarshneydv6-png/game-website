@@ -257,15 +257,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        const isMobile = window.innerWidth <= 768 || window.matchMedia("(pointer: coarse)").matches;
         let rainParticles = [];
         let sakuraParticles = [];
         let networkParticles = [];
         
-        for(let i = 0; i < 60; i++) rainParticles.push(new RainParticle());
-        for(let i = 0; i < 40; i++) sakuraParticles.push(new SakuraParticle());
-        for(let i = 0; i < 35; i++) networkParticles.push(new NetworkParticle());
+        const rainCount = isMobile ? 22 : 60;
+        const sakuraCount = isMobile ? 18 : 40;
+        const networkCount = isMobile ? 14 : 35;
+
+        for(let i = 0; i < rainCount; i++) rainParticles.push(new RainParticle());
+        for(let i = 0; i < sakuraCount; i++) sakuraParticles.push(new SakuraParticle());
+        for(let i = 0; i < networkCount; i++) networkParticles.push(new NetworkParticle());
 
         function connectNetwork() {
+            if (isMobile) return; // Skip heavy distance calculations on mobile for 60fps scrolling
             let opacityValue = 1;
             for(let a = 0; a < networkParticles.length; a++) {
                 if (mouse.x != null) {
@@ -308,10 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animate();
     }
-    // --- SCROLL REVEAL ANIMATIONS ---
+    // --- SCROLL REVEAL ANIMATIONS (Trigger earlier for butter-smooth mobile scrolling) ---
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+        threshold: 0.01,
+        rootMargin: "0px 0px 100px 0px"
     };
 
     const observer = new IntersectionObserver((entries) => {

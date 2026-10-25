@@ -81,11 +81,11 @@
         <section id="hero" class="hero section-padding">
             <div class="hero-content">
                 <div class="badge fade-up">
-                    <i class="fab fa-windows"></i> Windows PC Exclusive
+                    <i class="fas fa-gamepad"></i> Available on PC & Android
                 </div>
                 
                 <div class="logo-container fade-up delay-1">
-                    <img src="logo.png" alt="NINDO The Lost Scroll" class="main-logo" id="mainLogo" onerror="this.onerror=null; this.src='https://placehold.co/600x300/f5ecd8/e60000?text=NINDO+Logo+Here';">
+                    <img src="logo.png" alt="NINDO The Lost Scroll" class="main-logo" id="mainLogo" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x300/f5ecd8/e60000?text=NINDO+Logo+Here';">
                 </div>
                 
                 <p class="hero-desc fade-up delay-2">
@@ -96,6 +96,11 @@
                     <a href="https://github.com/devvarshneydv6-png/game-website/releases/download/v1.0/The.Lost.Scroll.exe" class="btn btn-primary btn-float">
                         <i class="fab fa-windows"></i>
                         <span>Download for Windows (202 MB)</span>
+                    </a>
+
+                    <a href="https://github.com/devvarshneydv6-png/game-website/releases/download/v1.0/nindo.apk" class="btn btn-primary btn-float" id="androidDownloadBtn">
+                        <i class="fab fa-android"></i>
+                        <span>Download for Android (APK)</span>
                     </a>
                     
                     <a href="https://forms.gle/uS2nNeje1cogYcWf9" class="btn btn-secondary btn-float" target="_blank">
@@ -121,13 +126,13 @@
             <div class="status-grid">
                 <div class="status-card glass-card fade-up">
                     <div class="icon-wrapper">
-                        <i class="fas fa-mobile-alt"></i>
+                        <i class="fas fa-wrench"></i>
                     </div>
-                    <h3>Mobile Version</h3>
+                    <h3>Game Polish & Glitches</h3>
                     <div class="status-pill in-progress">
-                        <span class="pulse-dot"></span> In Development
+                        <span class="pulse-dot"></span> Fixing Now
                     </div>
-                    <p>We are working hard to optimize the controls and performance so you can take Nindo with you on your iOS and Android devices!</p>
+                    <p>We are actively hunting down glitches and optimizing performance to make the gameplay incredibly smooth and flawless on all devices!</p>
                 </div>
                 
                 <div class="status-card glass-card fade-up delay-1">
@@ -161,9 +166,9 @@
                 
                 <div class="stats-grid">
                     <div class="stat-box">
-                        <i class="fas fa-skull stat-icon"></i>
-                        <span class="stat-value">Epic</span>
-                        <span class="stat-label">Boss Fights</span>
+                        <i class="fas fa-ghost stat-icon"></i>
+                        <span class="stat-value">Diverse</span>
+                        <span class="stat-label">Enemies</span>
                     </div>
                     <div class="stat-box">
                         <i class="fas fa-star stat-icon"></i>
@@ -171,9 +176,9 @@
                         <span class="stat-label">Level Mastery</span>
                     </div>
                     <div class="stat-box">
-                        <i class="fas fa-trophy stat-icon"></i>
-                        <span class="stat-value">Global</span>
-                        <span class="stat-label">Highscores</span>
+                        <i class="fas fa-store stat-icon"></i>
+                        <span class="stat-value">Coin</span>
+                        <span class="stat-label">Shop</span>
                     </div>
                     <div class="stat-box">
                         <i class="fas fa-music stat-icon"></i>
@@ -194,15 +199,15 @@
             
             <div class="gallery">
                 <div class="gallery-item glass-card fade-up">
-                    <img src="images/1.png" alt="Screenshot 1">
+                    <img src="images/1.png" alt="Screenshot 1" loading="lazy" decoding="async">
                     <div class="item-overlay"><span>Epic Battles</span></div>
                 </div>
                 <div class="gallery-item glass-card fade-up delay-1">
-                    <img src="images/2.png" alt="Screenshot 2">
+                    <img src="images/2.png" alt="Screenshot 2" loading="lazy" decoding="async">
                     <div class="item-overlay"><span>Magical Worlds</span></div>
                 </div>
                 <div class="gallery-item glass-card fade-up delay-2">
-                    <img src="images/3.png" alt="Screenshot 3">
+                    <img src="images/3.png" alt="Screenshot 3" loading="lazy" decoding="async">
                     <div class="item-overlay"><span>Fierce Enemies</span></div>
                 </div>
             </div>
@@ -220,28 +225,28 @@
                 <details class="faq-item glass-card">
                     <summary>Is NINDO: The Lost Scroll free to play?</summary>
                     <div class="faq-content">
-                        <p>Yes! The game is currently completely free to download and play during its Early Access phase on PC.</p>
+                        <p>Yes! The game is completely free to download and play during its Early Access phase on both PC and Android.</p>
                     </div>
                 </details>
 
                 <details class="faq-item glass-card">
-                    <summary>When will the mobile version be released?</summary>
+                    <summary>Can I play the game offline?</summary>
                     <div class="faq-content">
-                        <p>We are actively working on the mobile version right now. While we don't have an exact release date yet, it is our top priority. Sign up for our newsletter to get notified the moment it drops!</p>
+                        <p>Yes! Nindo: The Lost Scroll is a fully offline single-player experience. No internet connection is required once downloaded.</p>
                     </div>
                 </details>
 
                 <details class="faq-item glass-card">
-                    <summary>What are the system requirements for PC?</summary>
+                    <summary>What are the system requirements?</summary>
                     <div class="faq-content">
-                        <p>Because it's a 2D platformer, it's highly optimized! Any PC with at least 4GB of RAM, a basic graphics card, and Windows 10/11 will run the game smoothly.</p>
+                        <p>Because it's a 2D platformer, it's highly optimized! Any PC with at least 4GB of RAM, or any Android device with 2GB of RAM (Android 8.0+) will run the game smoothly.</p>
                     </div>
                 </details>
 
                 <details class="faq-item glass-card">
                     <summary>How many levels are there currently?</summary>
                     <div class="faq-content">
-                        <p>Currently, there is only 1 level available in Early Access, but we are actively working on building more levels, regions, and epic boss fights!</p>
+                        <p>Currently, there are 2 massive levels available in Early Access! We are actively working on building even more regions and epic boss fights.</p>
                     </div>
                 </details>
             </div>
@@ -252,7 +257,7 @@
             <div class="newsletter-grid">
                 <div class="newsletter-box glass-card fade-up">
                     <h2>Join the Shadows</h2>
-                    <p>Subscribe to our newsletter to get notified when the Mobile version launches or when we release massive updates!</p>
+                    <p>Subscribe to our newsletter to get notified about massive game updates, new levels, and exclusive content!</p>
                     <form class="newsletter-form" id="newsletterForm">
                         <input type="email" name="email" id="newsletterEmail" placeholder="Enter your email address" required>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-bell"></i> Subscribe</button>
