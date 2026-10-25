@@ -93,20 +93,35 @@
                 </p>
 
                 <div class="cta-group fade-up delay-3">
-                    <a href="https://github.com/devvarshneydv6-png/game-website/releases/download/v1.0/The.Lost.Scroll.exe" class="btn btn-primary btn-float">
-                        <i class="fab fa-windows"></i>
-                        <span>Download for Windows (202 MB)</span>
-                    </a>
+                    <div class="btn-recommended-wrapper" id="windowsWrapper">
+                        <a href="https://github.com/devvarshneydv6-png/game-website/releases/download/v1.0/The.Lost.Scroll.exe" class="btn btn-primary btn-float" id="windowsDownloadBtn">
+                            <i class="fab fa-windows"></i>
+                            <span>Download for Windows (202 MB)</span>
+                        </a>
+                    </div>
 
-                    <a href="https://github.com/devvarshneydv6-png/game-website/releases/download/v1.0/nindo.apk" class="btn btn-primary btn-float" id="androidDownloadBtn">
-                        <i class="fab fa-android"></i>
-                        <span>Download for Android (APK)</span>
-                    </a>
+                    <div class="btn-recommended-wrapper" id="androidWrapper">
+                        <a href="https://github.com/devvarshneydv6-png/game-website/releases/download/v1.0/nindo.apk" class="btn btn-primary btn-float" id="androidDownloadBtn">
+                            <i class="fab fa-android"></i>
+                            <span>Download for Android (APK)</span>
+                        </a>
+                    </div>
                     
                     <a href="https://forms.gle/uS2nNeje1cogYcWf9" class="btn btn-secondary btn-float" target="_blank">
                         <i class="fas fa-comment-dots"></i>
                         <span>Give Feedback</span>
                     </a>
+
+                    <button class="btn btn-secondary btn-float" id="shareGameBtn" title="Share Nindo with friends">
+                        <i class="fas fa-share-nodes"></i>
+                        <span>Share Game</span>
+                    </button>
+                </div>
+
+                <div class="fade-up delay-3" style="margin-top: 15px;">
+                    <button id="installHelpBtn" style="background: none; border: none; color: var(--text-muted); font-size: 0.9rem; cursor: pointer; text-decoration: underline; font-family: inherit;">
+                        <i class="fas fa-circle-question"></i> How to install on PC or Android? (Quick Guide)
+                    </button>
                 </div>
             </div>
             
@@ -284,6 +299,67 @@
             <p class="footer-note"><i class="fas fa-gamepad"></i> Thanks for playing!</p>
         </div>
     </footer>
+
+    <!-- Installation Guide Modal -->
+    <div class="guide-modal-overlay" id="guideModal">
+        <div class="guide-modal glass-card">
+            <button class="modal-close-btn" id="closeModalBtn" aria-label="Close modal">&times;</button>
+            <h3 style="margin: 0; color: var(--primary); font-family: 'Fredoka One', cursive; font-size: 1.4rem;">
+                <i class="fas fa-gamepad"></i> Installation Guide
+            </h3>
+            <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-muted);">Quick tips to install & play without security warnings</p>
+
+            <div class="modal-tabs">
+                <button class="modal-tab-btn active" id="tabAndroidBtn"><i class="fab fa-android"></i> Android (APK)</button>
+                <button class="modal-tab-btn" id="tabWindowsBtn"><i class="fab fa-windows"></i> Windows (PC)</button>
+            </div>
+
+            <!-- Android Tab Content -->
+            <div id="contentAndroid">
+                <ul class="guide-step-list">
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">1</span>
+                        <div class="guide-step-text">Click <strong>Download for Android</strong> to download <code>nindo.apk</code>.</div>
+                    </li>
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">2</span>
+                        <div class="guide-step-text">If Chrome asks <em>"File might be harmful"</em>, tap <strong>Download anyway</strong> (it is 100% verified & safe!).</div>
+                    </li>
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">3</span>
+                        <div class="guide-step-text">Open your Downloads, tap <code>nindo.apk</code>, and select <strong>Install</strong> (Allow <em>"Install unknown apps"</em> if prompted).</div>
+                    </li>
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">4</span>
+                        <div class="guide-step-text">Launch Nindo and start your ninja adventure! 🥷</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Windows Tab Content -->
+            <div id="contentWindows" style="display: none;">
+                <ul class="guide-step-list">
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">1</span>
+                        <div class="guide-step-text">Click <strong>Download for Windows</strong> to get <code>The.Lost.Scroll.exe</code>.</div>
+                    </li>
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">2</span>
+                        <div class="guide-step-text">If Windows SmartScreen appears, click <strong>More info</strong> &rarr; <strong>Run anyway</strong>.</div>
+                    </li>
+                    <li class="guide-step-item">
+                        <span class="guide-step-num">3</span>
+                        <div class="guide-step-text">Use <strong>Arrow Keys / WASD</strong> to move, and <strong>Spacebar</strong> to attack & jump!</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ninja Toast Notification -->
+    <div id="ninjaToast" class="ninja-toast">
+        <i class="fas fa-check-circle"></i> <span id="ninjaToastMsg">Game link copied to clipboard!</span>
+    </div>
 
     <script src="main.js"></script>
 </body>

@@ -498,4 +498,106 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- SMART DEVICE DETECTION ---
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isWindows = /Windows/i.test(navigator.userAgent);
+    const androidWrapper = document.getElementById('androidWrapper');
+    const windowsWrapper = document.getElementById('windowsWrapper');
+
+    if (isAndroid && androidWrapper) {
+        const badge = document.createElement('span');
+        badge.className = 'device-badge';
+        badge.innerHTML = '<i class="fas fa-mobile-screen"></i> Recommended for you';
+        androidWrapper.appendChild(badge);
+    } else if (isWindows && windowsWrapper) {
+        const badge = document.createElement('span');
+        badge.className = 'device-badge';
+        badge.innerHTML = '<i class="fab fa-windows"></i> Recommended for your PC';
+        windowsWrapper.appendChild(badge);
+    }
+
+    // --- SHARE GAME FEATURE ---
+    const shareGameBtn = document.getElementById('shareGameBtn');
+    const ninjaToast = document.getElementById('ninjaToast');
+    const ninjaToastMsg = document.getElementById('ninjaToastMsg');
+
+    function showNinjaToast(msg) {
+        if (!ninjaToast) return;
+        ninjaToastMsg.textContent = msg;
+        ninjaToast.classList.add('show');
+        setTimeout(() => ninjaToast.classList.remove('show'), 3000);
+    }
+
+    if (shareGameBtn) {
+        shareGameBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: 'NINDO: The Lost Scroll',
+                text: 'Check out this awesome ninja platformer game! Free on PC & Android:',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    // User canceled or fallback
+                }
+            } else {
+                // Clipboard fallback
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showNinjaToast('Game link copied to clipboard! Share with friends 🥷');
+                }).catch(() => {
+                    showNinjaToast('Share link: ' + window.location.href);
+                });
+            }
+        });
+    }
+
+    // --- INSTALLATION GUIDE MODAL ---
+    const installHelpBtn = document.getElementById('installHelpBtn');
+    const guideModal = document.getElementById('guideModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const tabAndroidBtn = document.getElementById('tabAndroidBtn');
+    const tabWindowsBtn = document.getElementById('tabWindowsBtn');
+    const contentAndroid = document.getElementById('contentAndroid');
+    const contentWindows = document.getElementById('contentWindows');
+
+    function openGuideModal(defaultTab = 'android') {
+        if (!guideModal) return;
+        if (defaultTab === 'windows') {
+            tabWindowsBtn.classList.add('active');
+            tabAndroidBtn.classList.remove('active');
+            contentWindows.style.display = 'block';
+            contentAndroid.style.display = 'none';
+        } else {
+            tabAndroidBtn.classList.add('active');
+            tabWindowsBtn.classList.remove('active');
+            contentAndroid.style.display = 'block';
+            contentWindows.style.display = 'none';
+        }
+        guideModal.classList.add('active');
+    }
+
+    function closeGuideModal() {
+        if (guideModal) guideModal.classList.remove('active');
+    }
+
+    if (installHelpBtn) {
+        installHelpBtn.addEventListener('click', () => {
+            openGuideModal(isWindows ? 'windows' : 'android');
+        });
+    }
+
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeGuideModal);
+    if (guideModal) {
+        guideModal.addEventListener('click', (e) => {
+            if (e.target === guideModal) closeGuideModal();
+        });
+    }
+
+    if (tabAndroidBtn && tabWindowsBtn) {
+        tabAndroidBtn.addEventListener('click', () => openGuideModal('android'));
+        tabWindowsBtn.addEventListener('click', () => openGuideModal('windows'));
+    }
+
 });
